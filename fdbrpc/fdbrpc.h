@@ -296,7 +296,9 @@ struct AcknowledgementReceiver final : FlowReceiver, FastAllocated<Acknowledgeme
 			if (!ready.isValid()) {
 				ready = Promise<Void>();
 			}
-			ready.sendError(message.getError());
+			// ready.sendError(message.getError());
+			Promise<Void> hold = ready;
+			hold.sendError(message.getError());
 		} else {
 			ASSERT(message.get().bytes > bytesAcknowledged);
 			bytesAcknowledged = message.get().bytes;
